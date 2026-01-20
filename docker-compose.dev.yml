@@ -1,0 +1,114 @@
+services:
+
+  dev-pgsql:
+    restart: always
+    image: postgres:18.1-alpine3.22
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Europe/Moscow
+    networks:
+      - dev-app-network
+
+  dev-redis:
+    restart: always
+    image: redis:8.4-alpine3.22
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    environment:
+      - TZ=Europe/Moscow
+    networks:
+      - dev-app-network
+    depends_on:
+      - dev-pgsql
+
+  dev-nginx:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile_nginx_app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    volumes:
+      - dev-app-data:/var/www/html
+      - dev-public-data:/var/www/html/public
+      - dev-nginx-logs:/var/log/nginx
+    ports:
+      - ${NGINX_PORT}:80
+    environment:
+      - NGINX_PHP_HOST=dev-app
+      - NGINX_ENTRYPOINT_QUIET_LOGS=1
+      - TZ=Europe/Moscow
+    networks:
+      - dev-app-network
+    depends_on:
+      - dev-app
+
+  dev-app:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile_app_dev
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    volumes:
+      - dev-app-data:/var/www/html
+      - dev-public-data:/var/www/html/public
+      - dev-storage-data:/var/www/html/storage
+    environment:
+      - APP_URL=${APP_URL}
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - DB_CONNECTION=pgsql
+      - DB_HOST=dev-pgsql
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=dev-redis
+      - REDIS_PORT=6379
+      - TZ=Europe/Moscow
+    networks:
+      - dev-app-network
+    depends_on:
+      - dev-pgsql
+
+volumes:
+  dev-db-data:
+  dev-app-data:
+  dev-public-data:
+  dev-storage-data:
+  dev-nginx-logs:
+
+networks:
+  dev-app-network:
+    driver: bridge

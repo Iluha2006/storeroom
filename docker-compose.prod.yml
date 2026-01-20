@@ -1,0 +1,114 @@
+services:
+
+  prod-pgsql:
+    restart: always
+    image: postgres:18.1-alpine3.22
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    volumes:
+      - prod-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Europe/Moscow
+    networks:
+      - prod-app-network
+
+  prod-redis:
+    restart: always
+    image: redis:8.4-alpine3.22
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    environment:
+      - TZ=Europe/Moscow
+    networks:
+      - prod-app-network
+    depends_on:
+      - prod-pgsql
+
+  prod-nginx:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile_nginx_app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    volumes:
+      - prod-app-data:/var/www/html
+      - prod-public-data:/var/www/html/public
+      - prod-nginx-logs:/var/log/nginx
+    ports:
+      - ${NGINX_PORT}:80
+    environment:
+      - NGINX_PHP_HOST=prod-app
+      - NGINX_ENTRYPOINT_QUIET_LOGS=1
+      - TZ=Europe/Moscow
+    networks:
+      - prod-app-network
+    depends_on:
+      - prod-app
+
+  prod-app:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile_app_prod
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    volumes:
+      - prod-app-data:/var/www/html
+      - prod-public-data:/var/www/html/public
+      - prod-storage-data:/var/www/html/storage
+    environment:
+      - APP_URL=${APP_URL}
+      - APP_ENV=production
+      - APP_DEBUG=true
+      - DB_CONNECTION=pgsql
+      - DB_HOST=prod-pgsql
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=prod-redis
+      - REDIS_PORT=6379
+      - TZ=Europe/Moscow
+    networks:
+      - prod-app-network
+    depends_on:
+      - prod-pgsql
+
+volumes:
+  prod-db-data:
+  prod-app-data:
+  prod-public-data:
+  prod-storage-data:
+  prod-nginx-logs:
+
+networks:
+  prod-app-network:
+    driver: bridge

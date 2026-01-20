@@ -1,0 +1,4 @@
+FROM nginx:1.29-alpine3.22
+COPY /docker/config/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /docker/config/etc/nginx/conf.d/timeout.conf /etc/nginx/conf.d/timeout.conf
+COPY /docker/config/etc/nginx/templates/default.conf.template /etc/nginx/templates/default.conf.template

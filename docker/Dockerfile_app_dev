@@ -1,0 +1,32 @@
+FROM node:25-alpine3.22 AS node_builder
+LABEL stage=builder
+WORKDIR /builder
+COPY /app/package.json /builder/package.json
+COPY /app/package-lock.json /builder/package-lock.json
+COPY /app/tailwind.config.js /builder/tailwind.config.js
+COPY /app/vite.config.js /builder/vite.config.js
+RUN npm ci
+COPY /app/resources /builder/resources
+RUN npm run build
+
+
+FROM ghcr.io/geekcodev/php:8.4 AS php_builder
+LABEL stage=builder
+WORKDIR /build
+COPY /app/composer.json ./
+COPY /app/composer.lock ./
+RUN composer install
+
+
+FROM ghcr.io/geekcodev/php:8.4
+COPY /docker/config/usr/local/etc/php/conf.d/40-custom.app.ini /usr/local/etc/php/conf.d/40-custom.ini
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+USER www-data:www-data
+WORKDIR /var/www/html
+COPY --from=php_builder --chown=www-data:www-data /build/vendor /var/www/html/vendor
+COPY --from=node_builder --chown=www-data:www-data /builder/public/build /var/www/html/public/build
+COPY --chown=www-data:www-data /app /var/www/html
+COPY --chown=www-data:www-data /app/.env.example /var/www/html/.env
+RUN php artisan key:generate
+EXPOSE 9000
+CMD ["php-fpm","-F" ,"--allow-to-run-as-root"]

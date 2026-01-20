@@ -1,0 +1,133 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "i2tech/storeroom",
+    "type": "project",
+    "description": "The storeroom application.",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
+    "license": "MIT",
+    "prefer-stable": true,
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.4",
+        "laravel/framework": "^12.44",
+        "laravel/sanctum": "^4.2.1",
+        "laravel/tinker": "^v2.11.0",
+        "laravel/fortify": "^v1.33.0",
+        "laravel/wayfinder": "^v0.1.13",
+        "inertiajs/inertia-laravel": "^v2.0.19",
+        "filament/filament": "^v4.3.1",
+        "livewire/livewire": "^v3.7.3",
+        "aws/aws-sdk-php": "^3.369.8",
+        "guzzlehttp/guzzle": "^7.10.0",
+        "yoomoney/yookassa-sdk-php": "^3.12.0",
+        "spatie/laravel-data": "^4.18.0",
+        "spatie/laravel-one-time-passwords": "^1.0.8",
+        "spatie/laravel-permission": "^6.24.0",
+        "league/flysystem": "^3.30.2",
+        "league/flysystem-local": "^3.30.2",
+        "league/flysystem-aws-s3-v3": "^3.30.1",
+        "league/flysystem-path-prefixing": "^3.28.0",
+        "league/mime-type-detection": "^1.16.0",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "laravel/pail": "^v1.2.4",
+        "laravel/pint": "^v1.26.0",
+        "laravel/sail": "^v1.51.0",
+        "laravel/boost": "^v1.8.7",
+        "fakerphp/faker": "^v1.24.1",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^v8.8.3",
+        "barryvdh/laravel-debugbar": "^v3.16.3",
+        "phpunit/phpunit": "^12.5.4",
+        "symfony/browser-kit": "^v7.4.0",
+        "codeception/codeception": "^5.3.3",
+        "codeception/module-laravel": "^3.2.1",
+        "codeception/module-rest": "^3.4.3",
+        "codeception/module-asserts": "^3.3.0",
+        "codeception/module-phpbrowser": "^3.0.2",
+        "codeception/module-filesystem": "^3.0.2"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "dev:ssr": [
+            "npm run build:ssr",
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
+        ],
+        "lint": [
+            "pint --parallel"
+        ],
+        "test:lint": [
+            "pint --parallel --test"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@test:lint",
+            "@php artisan test"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan boost:update --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ]
+    }
+}

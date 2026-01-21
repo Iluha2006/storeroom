@@ -1,7 +1,12 @@
 Как развернуть проект локально:
+
 1. Создать файл .env в корне проекта и заполнить, образец файла .env.example
 2. Выполнить команду docker compose -f docker-compose.local.yml
 3. Выполнить установку vendor docker compose -f docker-compose.local.yml exec php composer install
-4. Выполнить миграции docker compose -f docker-compose.local.yml exec php /var/www/html/artisan migrate
-5. Установить роли и разрешения docker compose -f docker-compose.local.yml exec php /var/www/html/artisan permissions:setup
-6. Создать суперпользователя docker compose -f docker-compose.local.yml exec php /var/www/html/artisan db:seed
+4. Сгенерировать Wayfinder docker compose -f docker-compose.local.yml exec php /var/www/html/artisan wayfinder:generate --with-form
+5. Выполнить миграции docker compose -f docker-compose.local.yml exec php /var/www/html/artisan migrate
+6. Установить роли и разрешения docker compose -f docker-compose.local.yml exec php /var/www/html/artisan permissions:setup
+7. Создать суперпользователя docker compose -f docker-compose.local.yml exec php /var/www/html/artisan db:seed
+
+
+docker compose -f docker-compose.local.yml exec php /var/www/html/artisan filament:upgrade

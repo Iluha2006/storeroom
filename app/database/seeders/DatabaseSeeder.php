@@ -17,13 +17,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create([
-            'status' => UserStatusEnum::Active,
-            'name' => 'Test',
-            'email' => 'test@test.local',
-            'password' => Hash::make('qwerty12'),
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+            SuperuserSeeder::class,
+            ModeratorSeeder::class,
+            UserSeeder::class,
+            OrganizationSeeder::class,
+            PartnerSeeder::class,
+            CitySeeder::class,
+            AddressSeeder::class,
+            WarehouseObjectSeeder::class,
+            WarehouseCellSeeder::class,
         ]);
-
-        $user->assignRole(UserRoleEnum::Superuser);
     }
 }

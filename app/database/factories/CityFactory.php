@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\City;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\City;
+
 
 class CityFactory extends Factory
 {
@@ -12,14 +14,35 @@ class CityFactory extends Factory
 
     public function definition(): array
     {
+        $city = $this->faker->unique()->city();
+        $slug = Str::slug($city);
         return [
-            'id' => $this->faker->unique()->numberBetween(1, 1000),
             'uuid' => $this->faker->uuid(),
             'is_active' => $this->faker->boolean(),
-            'name' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
+            'name' => $city,
+            'slug' => $slug,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
+    }
+
+    public function active(): CityFactory
+    {
+        return $this->state(fn() => ['is_active' => true]);
+    }
+
+    public function inactive(): CityFactory
+    {
+        return $this->state(fn() => ['is_active' => false]);
+    }
+
+    public function withName(string $name): CityFactory
+    {
+        return $this->state(fn() => ['name' => $name]);
+    }
+
+    public function withSlug(string $slug): CityFactory
+    {
+        return $this->state(fn() => ['slug' => $slug]);
     }
 }

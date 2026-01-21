@@ -1,16 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import path from 'path';
-
-import { wayfinder } from '@laravel/vite-plugin-wayfinder';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+// @ts-ignore
+import {wayfinder} from '@laravel/vite-plugin-wayfinder';
+// @ts-ignore
 import tailwindcss from '@tailwindcss/vite';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+// @ts-ignore
 import react from '@vitejs/plugin-react';
+// @ts-ignore
 import laravel from 'laravel-vite-plugin';
-import { defineConfig } from 'vite';
+// @ts-ignore
+import {defineConfig} from 'vite';
 
 export default defineConfig({
     plugins: [

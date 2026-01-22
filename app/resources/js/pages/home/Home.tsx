@@ -1,0 +1,13 @@
+
+export default function Home() {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+        <div className="text-center max-w-lg">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Склад
+          </h1>
+        
+        </div>
+      </div>
+    );
+  }

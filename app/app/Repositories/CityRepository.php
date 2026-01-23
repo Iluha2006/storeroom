@@ -20,6 +20,7 @@ class CityRepository extends BaseRepository
     {
         return $this->newQuery()
             ->where('is_active', true)
+            ->orderBy('name')
             ->get();
     }
 
@@ -27,6 +28,29 @@ class CityRepository extends BaseRepository
     {
         return $this->newQuery()
             ->where('name', 'like', "%{$name}%")
+            ->first();
+    }
+
+    public function findBySlug(string $slug): City | Model | null
+    {
+        return $this->newQuery()
+            ->where('slug', $slug)
+            ->first();
+    }
+
+    public function findActiveByUuid(string $uuid): City | Model | null
+    {
+        return $this->newQuery()
+            ->where('uuid', $uuid)
+            ->where('is_active', true)
+            ->first();
+    }
+
+    public function findActiveBySlug(string $slug): City | Model | null
+    {
+        return $this->newQuery()
+            ->where('is_active', true)
+            ->where('slug', $slug)
             ->first();
     }
 }

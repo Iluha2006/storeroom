@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,6 +32,10 @@ class Organization extends Model
         'email',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     /**
      * The attributes that should be cast.
      * @return array<string, string>
@@ -56,81 +61,56 @@ class Organization extends Model
         ];
     }
 
-    /**
-     * Пользователи организации
-     */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
 
-    /**
-     * Проверка, активна ли организация
-     */
+    public function objects(): HasMany
+    {
+        return $this->hasMany(WarehouseObject::class);
+    }
+
     public function isActive(): bool
     {
         return $this->status === OrganizationStatusEnum::Active;
     }
 
-    /**
-     * Проверка, заблокирована ли организация
-     */
     public function isBlocked(): bool
     {
         return $this->status === OrganizationStatusEnum::Blocked;
     }
 
-    /**
-     * Проверка, является ли организация юридическим лицом
-     */
     public function isLegal(): bool
     {
         return $this->type === OrganizationTypeEnum::Legal;
     }
 
-    /**
-     * Проверка, является ли организация ИП
-     */
     public function isIndividual(): bool
     {
         return $this->type === OrganizationTypeEnum::Individual;
     }
 
-    /**
-     * Scope для фильтрации активных организаций
-     */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', OrganizationStatusEnum::Active);
     }
 
-    /**
-     * Scope для фильтрации по типу
-     */
-    public function scopeOfType($query, OrganizationTypeEnum $type)
+    public function scopeOfType(Builder $query, OrganizationTypeEnum $type): Builder
     {
         return $query->where('type', $type);
     }
 
-    /**
-     * Scope для поиска по ИНН
-     */
-    public function scopeByInn($query, string $inn)
+    public function scopeByInn(Builder $query, string $inn): Builder
     {
         return $query->where('inn', $inn);
     }
 
-    /**
-     * Получить краткое название для отображения
-     */
     public function getDisplayNameAttribute(): string
     {
         return $this->name;
     }
 
-    /**
-     * Получить полное название для отображения
-     */
     public function getFullDisplayNameAttribute(): string
     {
         return $this->full_name ?: $this->name;

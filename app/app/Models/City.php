@@ -18,6 +18,10 @@ class City extends Model
         'slug',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     protected function casts(): array
     {
         return [

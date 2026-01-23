@@ -58,6 +58,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'two_factor_secret',
         'two_factor_recovery_codes',
         'remember_token',
+        'deleted_at',
     ];
 
     protected function casts(): array

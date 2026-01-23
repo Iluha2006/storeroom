@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class WarehouseObject extends Model
 {
@@ -21,20 +22,9 @@ class WarehouseObject extends Model
         'description',
     ];
 
-    public function address(): BelongsTo
-    {
-        return $this->belongsTo(Address::class);
-    }
-
-    public function organization(): BelongsTo
-    {
-        return $this->belongsTo(Organization::class);
-    }
-
-    public function cells(): HasMany
-    {
-        return $this->hasMany(WarehouseCell::class);
-    }
+    protected $hidden = [
+        'deleted_at',
+    ];
 
     protected function casts(): array
     {
@@ -51,5 +41,32 @@ class WarehouseObject extends Model
             'updated_at' => 'immutable_datetime',
             'deleted_at' => 'immutable_datetime',
         ];
+    }
+
+    public function city(): HasOneThrough | City
+    {
+        return $this->hasOneThrough(
+            City::class,
+            Address::class,
+            'id',
+            'id',
+            'address_id',
+            'city_id'
+        );
+    }
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function cells(): HasMany
+    {
+        return $this->hasMany(WarehouseCell::class);
     }
 }

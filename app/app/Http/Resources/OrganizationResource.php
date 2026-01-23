@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
-use App\Models\Organization;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Organization;
+
 
 /** @mixin Organization */
 class OrganizationResource extends JsonResource
@@ -12,21 +15,28 @@ class OrganizationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'uuid' => $this->uuid,
-            'status' => $this->status,
-            'type' => $this->type,
+            'status' => [
+                'value' => $this->status->value,
+                'label' => $this->status->getLabel(),
+            ],
+            'type' => [
+                'value' => $this->type->value,
+                'label' => $this->type->getLabel(),
+            ],
             'name' => $this->name,
             'full_name' => $this->full_name,
-            'inn' => $this->inn,
-            'kpp' => $this->kpp,
-            'ogrn' => $this->ogrn,
+            'requisites' => [
+                'inn' => $this->inn,
+                'kpp' => $this->kpp,
+                'ogrn' => $this->ogrn,
+            ],
             'address' => $this->address,
             'phone' => $this->phone,
             'email' => $this->email,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
+            'users_count' => $this->whenCounted('users'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

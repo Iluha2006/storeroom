@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use App\Traits\HasFiles;
 use App\Enums\WarehouseCellStatusEnum;
 use App\Enums\FileCollectionEnum;
@@ -31,6 +32,10 @@ class WarehouseCell extends Model
         'volume',
         'price',
         'how_to_get_there',
+    ];
+
+    protected $hidden = [
+        'deleted_at',
     ];
 
     protected function casts(): array
@@ -62,6 +67,30 @@ class WarehouseCell extends Model
         return $this->belongsTo(WarehouseObject::class, 'warehouse_object_id');
     }
 
+    public function address(): HasOneThrough | Address
+    {
+        return $this->hasOneThrough(
+            Address::class,
+            WarehouseObject::class,
+            'id',
+            'id',
+            'warehouse_object_id',
+            'address_id'
+        );
+    }
+
+    public function organization(): HasOneThrough | Organization
+    {
+        return $this->hasOneThrough(
+            Organization::class,
+            WarehouseObject::class,
+            'id',
+            'id',
+            'warehouse_object_id',
+            'organization_id'
+        );
+    }
+
     /**
      * Получить план помещения
      */
@@ -79,14 +108,6 @@ class WarehouseCell extends Model
     }
 
     /**
-     * Вычисляемый объем в см³
-     */
-    public function getVolumeAttribute(): int
-    {
-        return $this->length * $this->height * $this->width;
-    }
-
-    /**
      * Объем в м³
      */
     public function getVolumeCubicMetersAttribute(): float
@@ -100,5 +121,26 @@ class WarehouseCell extends Model
     public function getFormattedPriceAttribute(): string
     {
         return number_format($this->price, 2, ',', ' ') . ' ₽';
+    }
+
+    public function getFullAddressAttribute(): string
+    {
+        return $this->address?->full_address ?? 'Адрес не указан';
+    }
+
+    public function getFullAddressWithCityAttribute(): string
+    {
+        $address = $this->address;
+        if (!$address) {
+            return 'Адрес не указан';
+        }
+
+        $cityName = $address->city?->name;
+        return ($cityName ? $cityName . ', ' : '') . $address->full_address;
+    }
+
+    public function getDimensionsAttribute(): string
+    {
+        return sprintf('%d×%d×%d см', $this->length, $this->width, $this->height);
     }
 }

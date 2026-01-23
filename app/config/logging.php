@@ -127,6 +127,60 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'commands' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/commands.log'),
+            'level' => env('LOG_LEVEL', 'info'),
+            'days' => 30,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
+        'queries' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/queries.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 7,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
+        'warehouse' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/warehouse.log'),
+            'level' => 'info',
+            'days' => 30,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
+        'files' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/files.log'),
+            'level' => 'info',
+            'days' => 30,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 90,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
+        'api' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api.log'),
+            'level' => 'info',
+            'days' => 14,
+            'replace_placeholders' => true,
+            'permission' => 0664,
+        ],
+
     ],
 
 ];

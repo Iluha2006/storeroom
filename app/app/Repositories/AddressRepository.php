@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Address;
+use Illuminate\Database\Eloquent\Model;
 
 
 class AddressRepository extends BaseRepository
@@ -13,13 +14,6 @@ class AddressRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function findByCityId(int $cityId): Collection
-    {
-        return $this->newQuery()
-            ->where('city_id', $cityId)
-            ->get();
-    }
-
     public function findActive(): Collection
     {
         return $this->newQuery()
@@ -27,20 +21,41 @@ class AddressRepository extends BaseRepository
             ->get();
     }
 
-    public function findByCoordinates(float $lat, float $lon, float $radius = 0.0001): Collection
+    public function findBySlug(string $slug): Address | Model | null
     {
         return $this->newQuery()
-            ->whereBetween('lat', [$lat - $radius, $lat + $radius])
-            ->whereBetween('lon', [$lon - $radius, $lon + $radius])
+            ->where('slug', $slug)
+            ->first();
+    }
+
+    public function findActiveByUuid(string $uuid): Address | Model | null
+    {
+        return $this->newQuery()
+            ->where('is_active', true)
+            ->where('uuid', $uuid)
+            ->first();
+    }
+
+    public function findActiveBySlug(string $slug): Address | Model | null
+    {
+        return $this->newQuery()
+            ->where('is_active', true)
+            ->where('slug', $slug)
+            ->first();
+    }
+
+    public function findByCityId(int $cityId): Collection
+    {
+        return $this->newQuery()
+            ->where('city_id', $cityId)
             ->get();
     }
 
-    public function search(string $query): Collection
+    public function findByCityUuid(string $cityUuid): Collection
     {
         return $this->newQuery()
-            ->where(function ($q) use ($query) {
-                $q->where('street', 'like', "%{$query}%")
-                    ->orWhere('house', 'like', "%{$query}%");
+            ->whereHas('city', function ($query) use ($cityUuid) {
+                $query->where('uuid', $cityUuid);
             })
             ->get();
     }

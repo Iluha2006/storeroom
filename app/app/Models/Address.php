@@ -25,6 +25,10 @@ class Address extends Model
         'how_to_get_there',
     ];
 
+    protected $hidden = [
+        'deleted_at',
+    ];
+
     protected function casts(): array
     {
         return [

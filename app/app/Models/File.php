@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -32,6 +33,10 @@ class File extends Model
         'fileable_id',
         'collection',
         'metadata',
+    ];
+
+    protected $hidden = [
+        'deleted_at',
     ];
 
     protected function casts(): array
@@ -65,17 +70,17 @@ class File extends Model
         return $this->morphTo();
     }
 
-    public function scopeCollection($query, string $collection)
+    public function scopeCollection(Builder $query, string $collection): Builder
     {
         return $query->where('collection', $collection);
     }
 
-    public function scopeImages($query)
+    public function scopeImages(Builder $query): Builder
     {
         return $query->where('mime_type', 'LIKE', 'image/%');
     }
 
-    public function scopeDocuments($query)
+    public function scopeDocuments(Builder $query): Builder
     {
         return $query->whereIn('mime_type', [
             'application/pdf',

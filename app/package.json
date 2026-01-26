@@ -13,7 +13,6 @@
     },
     "dependencies": {
         "@headlessui/react": "^2.2.0",
-        "@inertiajs/react": "^2.3.7",
         "@radix-ui/react-avatar": "^1.1.3",
         "@radix-ui/react-checkbox": "^1.1.4",
         "@radix-ui/react-collapsible": "^1.1.3",
@@ -29,18 +28,25 @@
         "@radix-ui/react-tooltip": "^1.1.8",
         "@reduxjs/toolkit": "^2.11.2",
         "@tailwindcss/vite": "^4.1.11",
+        "@types/leaflet": "^1.9.21",
         "@types/react": "^19.2.0",
         "@types/react-dom": "^19.2.0",
         "@vitejs/plugin-react": "^5.0.0",
+        "axios": "^1.13.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "concurrently": "^9.0.1",
         "globals": "^15.14.0",
         "input-otp": "^1.4.2",
         "laravel-vite-plugin": "^2.0",
+        "leaflet": "^1.9.4",
         "lucide-react": "^0.475.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+<<<<<<< HEAD
+        "react-leaflet": "^5.0.0",
+=======
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.12.0",
         "tailwind-merge": "^3.0.1",

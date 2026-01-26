@@ -11,9 +11,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $this->command->warn('Начинаю создавать пользователей...');
-        User::factory(50)
-            ->withoutTwoFactor()
-            ->withoutOrganization()
+        User::factory(20)
             ->user()
             ->create();
         $this->command->info('✓ Пользователи успешно созданы');

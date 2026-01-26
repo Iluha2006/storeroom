@@ -30,6 +30,17 @@ class CityRepository extends BaseRepository
             ->where('name', 'like', "%{$name}%")
             ->first();
     }
+<<<<<<< HEAD
+    public function findActiveBySlugWithAddresses(string $slug): City | Model | null
+    {
+        return $this->newQuery()
+            ->where('is_active', true)
+            ->where('slug', $slug)
+            ->with('addresses')
+            ->first();
+    }
+=======
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
 
     public function findBySlug(string $slug): City | Model | null
     {

@@ -10,26 +10,21 @@ class WarehouseCellSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->command->warn('Начинаю создавать ячейки...');
+        $this->command->warn('только 20');
         if (WarehouseObject::count() === 0) {
             $this->call(WarehouseObjectSeeder::class);
         }
-        $objects = WarehouseObject::all();
-        $totalCells = 0;
-        $numberOfCells = 100;
-        foreach ($objects as $object) {
-            for ($i = 0; $i < $numberOfCells; $i++) {
-                $cellNumber = $i + 1;
-                WarehouseCell::factory()
-                    ->withObject($object->id)
-                    ->withNumber($cellNumber)
-                    ->create();
-                $totalCells++;
-            }
-            if ($totalCells % 1000 === 0) {
-                $this->command->info("Создано ячеек: {$totalCells}");
-            }
+
+        $object = WarehouseObject::first();
+        if (!$object) {
+            $this->command->error('Ошибка');
+            return;
         }
-        $this->command->info('✓ Ячейки успешно созданы');
+
+        WarehouseCell::factory(20)
+            ->withObject($object->id)
+            ->create();
+
+        $this->command->info('Создано 20 ячеек');
     }
 }

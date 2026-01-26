@@ -1,25 +1,29 @@
+<<<<<<< HEAD
+=======
 
- import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/react';
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
 import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 
-createInertiaApp({
-  resolve: (name) => {
-    const pages = import.meta.glob('./pages/**/*.tsx', { eager: true });
-    return pages[`./pages/${name}.tsx`];
-  },
-  setup({ el, App, props }) {
-    createRoot(el).render(
-      <StrictMode>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App {...props} />
-          </BrowserRouter>
-        </Provider>
-      </StrictMode>
-    );
-  },
-});
+<<<<<<< HEAD
+import App from './App/App';
+=======
+import App from './App/app';
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
+import { store } from './store/store';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </StrictMode>
+<<<<<<< HEAD
+);
+=======
+);
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c

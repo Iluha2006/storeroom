@@ -19,3 +19,7 @@ Route::prefix('city')->group(function () {
 });
 
 Route::get('/cell/{cellSlug}', [WarehouseCellController::class, 'show']);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c

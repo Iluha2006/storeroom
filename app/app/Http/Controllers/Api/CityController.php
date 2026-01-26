@@ -18,9 +18,13 @@ class CityController extends ApiController
 {
     use AuthorizesRequests;
 
+<<<<<<< HEAD
+    public function index(GetActiveCitiesHandler $handler)
+=======
     public function index(
         GetActiveCitiesHandler $handler
     )
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
     {
         $cities = $handler->handle(new GetActiveCitiesQuery());
 
@@ -31,6 +35,14 @@ class CityController extends ApiController
         return $this->success(CityResource::collection($cities));
     }
 
+<<<<<<< HEAD
+    public function show(GetActiveCityBySlugHandler $handler,string $slug)
+    {
+        $city = $handler->handle(new GetCityBySlugQuery($slug));
+        if (!$city) {
+            return $this->error('City not found', Response::HTTP_NOT_FOUND);
+        }
+=======
     public function show(
         GetActiveCityBySlugHandler $handler,
         string                     $slug
@@ -42,6 +54,7 @@ class CityController extends ApiController
             return $this->error('City not found', Response::HTTP_NOT_FOUND);
         }
 
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
         return $this->success(new CityResource($city));
     }
 }

@@ -10,7 +10,7 @@ class OrganizationSeeder extends Seeder
     public function run(): void
     {
         $this->command->warn('Начинаю создавать организации...');
-        Organization::factory(40)
+        Organization::factory(20)
             ->create();
         $this->command->info('✓ Организации успешно созданы');
     }

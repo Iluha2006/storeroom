@@ -1,12 +1,29 @@
-// @ts-ignore
-import {wayfinder} from '@laravel/vite-plugin-wayfinder';
-// @ts-ignore
-import tailwindcss from '@tailwindcss/vite';
-// @ts-ignore
+<<<<<<< HEAD
+// vite.config.ts
+import { resolve } from 'path';
+
 import react from '@vitejs/plugin-react';
-// @ts-ignore
 import laravel from 'laravel-vite-plugin';
-// @ts-ignore
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  plugins: [
+    laravel({
+      input: ['resources/css/app.css', 'resources/js/index.tsx'],
+    }),
+    react(),
+  ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'resources/js'),
+      react: resolve(__dirname, 'node_modules/react'),
+      'react-dom': resolve(__dirname, 'node_modules/react-dom'),
+=======
+
+import {wayfinder} from '@laravel/vite-plugin-wayfinder';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import laravel from 'laravel-vite-plugin';
 import {defineConfig} from 'vite';
 
 export default defineConfig({
@@ -15,11 +32,7 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/index.tsx'],
             refresh: true,
         }),
-        react({
-            babel: {
-                plugins: ['babel-plugin-react-compiler'],
-            },
-        }),
+        react(),
         wayfinder({
             formVariants: false,
             command: '',
@@ -28,17 +41,12 @@ export default defineConfig({
     ],
     esbuild: {
         jsx: 'automatic',
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
     },
-    server: {
-        host: '0.0.0.0',
-        port: 5173,
-        strictPort: true,
-        hmr: {
-            host: '0.0.0.0',
-            port: 5173,
-        },
-        watch: {
-            usePolling: true,
-        },
+  },
+  build: {
+    rollupOptions: {
+      external: ['react', 'react-dom'],
     },
+  },
 });

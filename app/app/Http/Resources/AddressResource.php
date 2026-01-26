@@ -26,8 +26,12 @@ class AddressResource extends JsonResource
             'how_to_get_there' => $this->how_to_get_there,
             'coordinates' => [
                 'lat' => $this->lat,
+<<<<<<< HEAD
+                'lon' => $this->lon,],
+=======
                 'lon' => $this->lon,
             ],
+>>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
             'city' => new CityResource($this->whenLoaded('city')),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),

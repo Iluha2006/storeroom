@@ -15,10 +15,9 @@ class AddressSeeder extends Seeder
             $this->call(CitySeeder::class);
         }
         $cities = City::all();
-        foreach ($cities as $city) {
+        foreach (range(1, 20) as $i) {
             Address::factory()
-                ->count(20)
-                ->withCity($city->id)
+                ->withCity($cities->random()->id)
                 ->create();
         }
         $this->command->info('✓ Адреса успешно созданы');

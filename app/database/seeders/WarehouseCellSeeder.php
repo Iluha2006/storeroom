@@ -3,28 +3,29 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\WarehouseCell;
 use App\Models\WarehouseObject;
+use App\Models\WarehouseCell;
+use App\Enums\WarehouseCellStatusEnum;
 
 class WarehouseCellSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->command->warn('только 20');
+        $this->command->warn('Создаю 3 ячейки для объектов...');
+
         if (WarehouseObject::count() === 0) {
             $this->call(WarehouseObjectSeeder::class);
         }
 
-        $object = WarehouseObject::first();
-        if (!$object) {
-            $this->command->error('Ошибка');
-            return;
+        $objects = WarehouseObject::where('is_active', true)->get();
+
+        foreach ($objects as $object) {
+            WarehouseCell::factory()
+                ->withObject($object->id)
+                ->state(['status' => WarehouseCellStatusEnum::Available->value])
+                ->create();
         }
 
-        WarehouseCell::factory(20)
-            ->withObject($object->id)
-            ->create();
-
-        $this->command->info('Создано 20 ячеек');
+        $this->command->info('✓ 3 ячейки созданы (по одной на каждый объект)');
     }
 }

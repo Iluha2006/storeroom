@@ -9,6 +9,7 @@ export interface IAddress {
     is_active: boolean;
     slug: string;
     street: string;
+    full_address:string,
     house: string;
     building: string;
     frame: string;

@@ -10,16 +10,21 @@ class AddressSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->command->warn('Начинаю создавать адреса...');
+        $this->command->warn('Создаю 3 адреса (по одному на город)...');
+
         if (City::count() === 0) {
             $this->call(CitySeeder::class);
         }
+
         $cities = City::all();
-        foreach (range(1, 20) as $i) {
+
+        foreach ($cities as $city) {
             Address::factory()
-                ->withCity($cities->random()->id)
+                ->withCity($city->id)
+                ->active()
                 ->create();
         }
-        $this->command->info('✓ Адреса успешно созданы');
+
+        $this->command->info('✓ 3 адреса созданы (по одному на каждый город)');
     }
 }

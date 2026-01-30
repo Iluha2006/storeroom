@@ -22,7 +22,8 @@ class WarehouseObjectResource extends JsonResource
             'description' => $this->description,
             'address' => new AddressResource($this->whenLoaded('address')),
             'organization' => new OrganizationResource($this->whenLoaded('organization')),
-            'cells_count' => $this->whenCounted('cells'),
+            'cells_count' => $this->available_cells_count,
+'price' => $this->price,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

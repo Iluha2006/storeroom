@@ -2,11 +2,11 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { AppDispatch, RootState } from '../store/store';
 import {
   fetchWarehouseObjectsByCity,
   fetchWarehouseObjectBySlug,
 } from '../store/warehouseObject';
-import { AppDispatch, RootState } from '../store/store';
 
 export const useWarehouseObjects = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,7 +14,6 @@ export const useWarehouseObjects = () => {
     (state: RootState) => state.warehouseObjects
   );
 
-  // Загрузка объектов по городу
   const loadObjectsByCity = useCallback(
     async (citySlug: string) => {
       return await dispatch(fetchWarehouseObjectsByCity(citySlug));
@@ -22,15 +21,12 @@ export const useWarehouseObjects = () => {
     [dispatch]
   );
 
-  // Загрузка конкретного объекта
   const loadObjectBySlug = useCallback(
     async (citySlug: string, objectSlug: string) => {
       return await dispatch(fetchWarehouseObjectBySlug(citySlug, objectSlug));
-    },
-    [dispatch]
+    },[dispatch]
   );
 
-  // Получить количество объектов для города
   const getObjectsCountByCityId = useCallback(
     (cityId: number) => {
       return objects.filter(obj => obj.address?.city_id === cityId).length;

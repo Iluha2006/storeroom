@@ -8,3 +8,12 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; \
 
 COPY /docker/config/usr/local/etc/php/conf.d/40-custom.ini /usr/local/etc/php/conf.d/40-custom.ini
 COPY /docker/config/usr/local/etc/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+USER www-data:www-data
+
+WORKDIR /var/www/html
+
+EXPOSE 9000
+CMD ["php-fpm"]

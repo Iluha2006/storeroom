@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\WarehouseCell;
@@ -31,7 +32,7 @@ class WarehouseCellResource extends JsonResource
                 'length' => $this->length,
                 'height' => $this->height,
                 'width' => $this->width,
-                'volume_cm3' => $this->volume,
+                'volume' => $this->volume,
                 'volume_m3' => $this->volume_cubic_meters,
             ],
             'price' => [
@@ -53,7 +54,7 @@ class WarehouseCellResource extends JsonResource
                     'photos' => $this->whenLoaded('files', fn() => $this->photos->count(), 0),
                 ],
             ],
-            'object' => new WarehouseObjectResource($this->whenLoaded('object')),
+            'object' => $this->object ? new WarehouseObjectResource($this->object) : new Exception("Нет связи"),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

@@ -36,18 +36,12 @@ class WarehouseObjectController extends Controller
             slug: $objectSlug,
             citySlug: $citySlug
         ));
-<<<<<<< HEAD
-
-
-
-        return response()->json([
+  return response()->json([
             'success' => true,
             'data' => new WarehouseObjectResource($object)
         ]);
     }
 }
-=======
-        dd($object->toArray());
-    }
-}
->>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
+
+
+

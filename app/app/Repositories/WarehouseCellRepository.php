@@ -22,29 +22,17 @@ class WarehouseCellRepository extends BaseRepository
         return $this->findByStatus(WarehouseCellStatusEnum::Available);
     }
 
-    public function getAvailableCellsBySlug(?string $citySlug, ?string $addressSlug, ?string $objectSlug): Collection
-    {
-        return $this->newQuery()
-            ->where('status', WarehouseCellStatusEnum::Available)
-            ->when($objectSlug, function ($query, $objectSlug) {
-                $query->whereHas('object', function ($query) use ($objectSlug) {
-                    $query->where('slug', $objectSlug);
-                });
-            })
-            ->whereHas('address', function ($query) use ($citySlug, $addressSlug) {
-                $query
-                    ->when($addressSlug, function ($query, $addressSlug) {
-                        $query->where('slug', $addressSlug);
-                    })
-                    ->whereHas('city', function ($query) use ($citySlug) {
-                        $query->when($citySlug, function ($query, $citySlug) {
-                            $query->where('slug', $citySlug);
-                        });
-                    });
-            })
-            ->get();
-    }
-
+   // app/Repositories/WarehouseCellRepository.php
+public function getAvailableCellsByCitySlug(string $citySlug): Collection
+{
+    return $this->newQuery()
+        ->with(['object.address.city', 'object.organization'])
+        ->where('status', WarehouseCellStatusEnum::Available->value)
+        ->whereHas('object.address.city', function ($query) use ($citySlug) {
+            $query->where('slug', $citySlug);
+        })
+        ->get();
+}
     public function getAvailableCellsByUuid(?string $cityUuid, ?string $addressUuid, ?string $objectUuid): Collection
     {
         return $this->newQuery()
@@ -120,4 +108,6 @@ class WarehouseCellRepository extends BaseRepository
             ->where('status', $status)
             ->get();
     }
+
+
 }

@@ -1,5 +1,5 @@
-FROM node:25-alpine3.22
+FROM node:25.4-bookworm
 WORKDIR /var/www/html
-COPY /docker/scripts/docker-node-entrypoint.sh /usr/bin/docker-node-entrypoint.sh
+ADD docker/scripts/docker-node-entrypoint.sh /usr/bin/docker-node-entrypoint.sh
 RUN ["chmod", "+x", "/usr/bin/docker-node-entrypoint.sh"]
 ENTRYPOINT [ "/usr/bin/docker-node-entrypoint.sh" ]

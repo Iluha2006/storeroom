@@ -9,6 +9,7 @@ use App\Queries\BaseQuery;
 
 final readonly class GetAvailableWarehouseCellBySlugQuery extends BaseQuery
 {
+
     public function __construct(
         public string $slug
     )

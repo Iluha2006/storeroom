@@ -28,6 +28,7 @@ enum WarehouseCellStatusEnum: int implements HasLabel, HasColor, HasIcon
         ];
     }
 
+
     public function getLabel(): string
     {
         return self::forForm()[$this->value];

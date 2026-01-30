@@ -1,11 +1,54 @@
-﻿FROM ghcr.io/geekcodev/php:8.4
+﻿# === Сборка фронтенда ===
+FROM node:20-alpine AS node_builder
+WORKDIR /builder
+COPY ./app/package*.json ./
+RUN npm ci
+COPY ./app/vite.config.ts ./vite.config.ts
+COPY ./app/tailwind.config.js ./
+COPY ./app/resources ./resources
+RUN npm run build
 
-COPY /docker/config/usr/local/etc/php/conf.d/40-custom.app.ini /usr/local/etc/php/conf.d/40-custom.ini
+
+# === Сборка бэкенда (PHP) ===
+FROM ghcr.io/geekcodev/php:8.4 AS php_builder
+WORKDIR /build
+
+# Устанавливаем PHP-расширения
+RUN apt-get update && \
+    apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libzip-dev && \
+    docker-php-ext-install pdo pdo_pgsql mbstring gd zip fileinfo && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Копируем ВЕСЬ код
+COPY ./app .
+
+# Устанавливаем зависимости
+RUN composer install --optimize-autoloader --no-dev --no-interaction
+
+
+# === Финальный образ ===
+FROM ghcr.io/geekcodev/php:8.4
+
+# Устанавливаем расширения и конфиг
+RUN apt-get update && \
+    apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libzip-dev && \
+    docker-php-ext-install pdo pdo_pgsql mbstring gd zip fileinfo && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY ./docker/config/usr/local/etc/php/conf.d/40-custom.app.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
-USER www-data:www-data
+USER www-www-data
 
 WORKDIR /var/www/html
+
+COPY --from=php_builder --chown=www-www-data /build/vendor ./vendor
+COPY --from=node_builder --chown=www-www-data /builder/public/build ./public/build
+COPY --chown=www-www-data ./app .
+
+RUN php artisan key:generate
 
 EXPOSE 9000
 CMD ["php-fpm"]

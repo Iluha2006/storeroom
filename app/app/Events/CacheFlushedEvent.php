@@ -16,5 +16,6 @@ class CacheFlushedEvent
         public ?string $reason = null
     )
     {
+        
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\WarehouseCellStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,4 +70,23 @@ class WarehouseObject extends Model
     {
         return $this->hasMany(WarehouseCell::class);
     }
+
+
+
+public function getAvailableCellsCountAttribute(): int
+{
+    return $this->cells()
+        ->where('status', WarehouseCellStatusEnum::Available)
+        ->count();
+}
+
+public function getPriceAttribute(): ?float
+{
+    return $this->cells()->min('price');
+}
+
+public function getCellsCountAttribute(): int
+{
+    return $this->cells()->count();
+}
 }

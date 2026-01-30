@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-
 import { IWarehouseObject } from '@/types/Object';
 
 import type { AppDispatch } from './store'

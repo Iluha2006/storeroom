@@ -19,6 +19,7 @@ class WarehouseObjectRepository extends BaseRepository
     public function getActiveBySlugAndCitySlug(string $slug, string $citySlug): WarehouseObject | Model | null
     {
         return $this->newQuery()
+           ->with(['address', 'organization', 'cells' ])
             ->where('is_active', true)
             ->where('slug', $slug)
             ->whereHas('address', function ($query) use ($citySlug) {
@@ -32,15 +33,11 @@ class WarehouseObjectRepository extends BaseRepository
     public function getActiveByCitySlug(string $citySlug): Collection
     {
         return $this->newQuery()
+            ->with(['address', 'organization', 'cells'])
             ->where('is_active', true)
-            ->whereHas('address', function ($query) use ($citySlug) {
-                $query->whereHas('city', function ($query) use ($citySlug) {
-                    $query->where('slug', $citySlug);
-                });
-            })
+            ->whereHas('address.city', fn($q) => $q->where('slug', $citySlug))
             ->get();
     }
-
     public function findActive(): Collection
     {
         return $this->newQuery()

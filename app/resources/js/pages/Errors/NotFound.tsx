@@ -7,13 +7,6 @@ export default function NotFound() {
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
             Страница не найдена
           </h2>
-<<<<<<< HEAD
-
-=======
-          <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
-            Кажется, вы попали не туда. Такой страницы не существует или она была перемещена.
-          </p>
->>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
           <a
             href="/"
             className="inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
@@ -23,8 +16,4 @@ export default function NotFound() {
         </div>
       </div>
     );
-<<<<<<< HEAD
   }
-=======
-  }
->>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c

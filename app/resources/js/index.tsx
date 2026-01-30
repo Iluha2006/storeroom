@@ -1,7 +1,8 @@
-﻿import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-const App = () => <div>Hello from React</div>;
+import App from './App/App';
+import { store } from './store/store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

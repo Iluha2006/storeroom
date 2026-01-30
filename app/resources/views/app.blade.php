@@ -7,31 +7,6 @@
 
         <title>{{ config('app.name', 'Storeroom') }}</title>
 
-<<<<<<< HEAD
-=======
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
-                }
-            })();
-        </script>
-
-
-        <style>
-            html {
-                background-color: oklch(1 0 0);
-            }
-
-            html.dark {
-                background-color: oklch(0.145 0 0);
-            }
-        </style>
-
-
->>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
 
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -44,14 +19,8 @@
 
         @viteReactRefresh
         @vite(['resources/js/index.tsx', 'resources/css/app.css'])
-<<<<<<< HEAD
     </head>
     <body class="font-sans antialiased">
-=======
-
-    </head>
-    <body>
->>>>>>> 273a5dd0220baeb80179c36ad7b00eb510b2ad6c
         <div id="root"></div>
     </body>
 </html>

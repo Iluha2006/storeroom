@@ -36,8 +36,7 @@ return new class extends Migration {
 
             $table->comment('Пользователи');
         });
-        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
-        DB::statement('ALTER TABLE users ALTER COLUMN uuid SET DEFAULT uuid_generate_v4()');
+
     }
 
     /**

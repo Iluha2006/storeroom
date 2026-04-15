@@ -2,24 +2,15 @@
 
 namespace App\Providers;
 
-use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Routing\Redirector;
 use App\Models\User;
-use App\Actions\Fortify\CreateNewUser;
-use App\Actions\Fortify\ResetUserPassword;
-
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -28,22 +19,37 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Редиректы после аутентификации
         $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
-            public function toResponse($request): Redirector | RedirectResponse
+            public function toResponse($request)
             {
-                return redirect('/');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registration successful. Please verify your email.',
+                    'redirect' => '/email/verify'
+                ], 200);
             }
         });
+
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
-            public function toResponse($request): Redirector | RedirectResponse
+            public function toResponse($request)
             {
-                return redirect('/');
+                return response()->json([
+                    'success' => true,
+                    'user' => $request->user()->only(['id', 'name', 'email', 'email_verified_at']),
+                    'redirect' => '/dashboard'
+                ], 200);
             }
         });
+
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
-            public function toResponse($request): Redirector | RedirectResponse
+            public function toResponse($request)
             {
-                return redirect('/');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Logged out successfully',
+                    'redirect' => '/'
+                ], 200);
             }
         });
     }
@@ -57,69 +63,51 @@ class FortifyServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
 
             if ($user && Hash::check($request->password, $user->password)) {
+
+                if (Features::enabled(Features::emailVerification()) && !$user->hasVerifiedEmail()) {
+                    return null;
+                }
+
                 $user->setAttribute('last_login_at', new \DateTimeImmutable());
                 $user->save();
                 return $user;
             }
         });
-        $this->configureActions();
-        $this->configureViews();
-        $this->configureRateLimiting();
-    }
 
-    /**
-     * Configure Fortify actions.
-     */
-    private function configureActions(): void
-    {
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-        Fortify::createUsersUsing(CreateNewUser::class);
-    }
 
-    /**
-     * Configure Fortify views.
-     */
-    private function configureViews(): void
-    {
-        Fortify::loginView(fn(Request $request) => Inertia::render('auth/login', [
-            'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            'canRegister' => Features::enabled(Features::registration()),
-            'status' => $request->session()->get('status'),
-        ]));
-
-        Fortify::resetPasswordView(fn(Request $request) => Inertia::render('auth/reset-password', [
-            'email' => $request->email,
-            'token' => $request->route('token'),
-        ]));
-
-        Fortify::requestPasswordResetLinkView(fn(Request $request) => Inertia::render('auth/forgot-password', [
-            'status' => $request->session()->get('status'),
-        ]));
-
-        Fortify::verifyEmailView(fn(Request $request) => Inertia::render('auth/verify-email', [
-            'status' => $request->session()->get('status'),
-        ]));
-
-        Fortify::registerView(fn() => Inertia::render('auth/register'));
-
-        Fortify::twoFactorChallengeView(fn() => Inertia::render('auth/two-factor-challenge'));
-
-        Fortify::confirmPasswordView(fn() => Inertia::render('auth/confirm-password'));
-    }
-
-    /**
-     * Configure rate limiting.
-     */
-    private function configureRateLimiting(): void
-    {
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        Fortify::loginView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
         });
 
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
+        Fortify::registerView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
 
-            return Limit::perMinute(5)->by($throttleKey);
+        Fortify::requestPasswordResetLinkView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
+
+        Fortify::resetPasswordView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
+
+        Fortify::verifyEmailView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
+
+
+        Fortify::verifyEmailView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
+
+
+        Fortify::confirmPasswordView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        });
+
+
+        Fortify::twoFactorChallengeView(function () {
+            return response()->json(['error' => 'Unauthorized'], 401);
         });
     }
 }

@@ -1,4 +1,4 @@
-import CityList from "@/components/City"
+import CityList from "../../components/Object/City"
 export default function CityPage( ){
 
 

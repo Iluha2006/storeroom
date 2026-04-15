@@ -38,6 +38,18 @@ class WarehouseCell extends Model
         'deleted_at',
     ];
 
+public function getTariffs(): array
+{
+    $basePrice = $this->price ?? 1000;
+
+    return [
+        1 => ['months' => 1, 'price' => $basePrice, 'discount' => 0],
+        3 => ['months' => 3, 'price' => round($basePrice * 0.93, 2), 'discount' => 7],
+        6 => ['months' => 6, 'price' => round($basePrice * 0.85, 2), 'discount' => 15],
+        12 => ['months' => 12, 'price' => round($basePrice * 0.82, 2), 'discount' => 18],
+    ];
+}
+
     protected function casts(): array
     {
         return [

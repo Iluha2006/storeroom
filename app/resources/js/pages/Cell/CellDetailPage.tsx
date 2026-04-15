@@ -1,4 +1,4 @@
-import CellDetail from "@/components/CellObject"
+import CellDetail from "../../components/Object/CellObject"
 
 
 

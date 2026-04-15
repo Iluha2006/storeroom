@@ -15,9 +15,14 @@ use App\Http\Requests\Settings\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
-    /**
-     * Show the user's profile settings page.
-     */
+    
+
+     public function show(Request $request){
+        
+        
+
+     }
+
     public function edit(Request $request): Response
     {
         return Inertia::render('settings/profile', [
@@ -45,9 +50,7 @@ class ProfileController extends Controller
         return to_route('profile.edit');
     }
 
-    /**
-     * Delete the user's account.
-     */
+  
     public function destroy(ProfileDeleteRequest $request): RedirectResponse
     {
         $user = $request->user();

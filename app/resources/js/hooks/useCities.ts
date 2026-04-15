@@ -1,40 +1,18 @@
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 
-
-import {
-  fetchCities,
-   fetchIdCity
-} from '../store/City';
-import { AppDispatch, RootState } from '../store/store';
+import { useGetCitiesQuery } from '../api/cityApi';
 
 export const useCities = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { items: cities, loading, error, successMessage, currentCity } = useSelector(
-    (state: RootState) => state.cities
-  );
-
-  useEffect(() => {
-    if (cities.length === 0) {
-      dispatch(fetchCities());
-    }
-  }, [dispatch]);
-
-
-
+  const { data: cities = [], error, isLoading, refetch } = useGetCitiesQuery();
 
   const loadCities = useCallback(() => {
-    dispatch(fetchCities());
-  }, [dispatch]);
+    refetch();
+  }, [refetch]);
 
   return {
     cities,
-    currentCity,
-    loading,
-
+    isLoading,
     error,
-    successMessage,
     loadCities,
-
   };
-}
+};

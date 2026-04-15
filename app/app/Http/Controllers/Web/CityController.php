@@ -11,15 +11,20 @@ use App\Handlers\Queries\City\GetActiveCityBySlugHandler;
 use App\Queries\City\GetCityBySlugQuery;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\CityResource;
+use App\Services\CityCacheService;
 
 class CityController extends Controller
 {
-    public function index(
-        GetActiveCitiesHandler $handler
-    ): JsonResponse
-    {
-        $cities = $handler->handle(new GetActiveCitiesQuery());
 
+
+    public function __construct(
+        private readonly CityCacheService $cityCacheService
+    ) {
+
+    }
+    public function index(): JsonResponse
+    {
+        $cities = $this->cityCacheService->getActiveCities();
         return response()->json([
             'success' => true,
             'data' => CityResource::collection($cities)

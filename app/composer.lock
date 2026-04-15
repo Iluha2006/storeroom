@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aff7119e993d591d3adbacd837838b90",
+    "content-hash": "6acea0f9b3e789c8add3dbbbc24fd3d1",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.369.15",
+            "version": "3.369.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "7c62f41fb0460c3e5d5c1f70e93e726f1daa75f5"
+                "reference": "8a0fc0da51eff807f8978613a82df9871b236718"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7c62f41fb0460c3e5d5c1f70e93e726f1daa75f5",
-                "reference": "7c62f41fb0460c3e5d5c1f70e93e726f1daa75f5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8a0fc0da51eff807f8978613a82df9871b236718",
+                "reference": "8a0fc0da51eff807f8978613a82df9871b236718",
                 "shasum": ""
             },
             "require": {
@@ -219,9 +219,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.15"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.30"
             },
-            "time": "2026-01-16T19:18:57+00:00"
+            "time": "2026-02-09T19:19:31+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -3335,16 +3335,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.30.2",
+            "version": "3.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277"
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
-                "reference": "5966a8ba23e62bdb518dd9e0e665c2dbd4b5b277",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
+                "reference": "1717e0b3642b0df65ecb0cc89cdd99fa840672ff",
                 "shasum": ""
             },
             "require": {
@@ -3412,22 +3412,22 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.31.0"
             },
-            "time": "2025-11-10T17:13:11+00:00"
+            "time": "2026-01-23T15:38:47+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
-            "version": "3.30.1",
+            "version": "3.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-aws-s3-v3.git",
-                "reference": "d286e896083bed3190574b8b088b557b59eb66f5"
+                "reference": "e36a2bc60b06332c92e4435047797ded352b446f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/d286e896083bed3190574b8b088b557b59eb66f5",
-                "reference": "d286e896083bed3190574b8b088b557b59eb66f5",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/e36a2bc60b06332c92e4435047797ded352b446f",
+                "reference": "e36a2bc60b06332c92e4435047797ded352b446f",
                 "shasum": ""
             },
             "require": {
@@ -3467,22 +3467,22 @@
                 "storage"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-aws-s3-v3/tree/3.30.1"
+                "source": "https://github.com/thephpleague/flysystem-aws-s3-v3/tree/3.31.0"
             },
-            "time": "2025-10-20T15:27:33+00:00"
+            "time": "2026-01-23T15:30:45+00:00"
         },
         {
             "name": "league/flysystem-local",
-            "version": "3.30.2",
+            "version": "3.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d"
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/ab4f9d0d672f601b102936aa728801dd1a11968d",
-                "reference": "ab4f9d0d672f601b102936aa728801dd1a11968d",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/2f669db18a4c20c755c2bb7d3a7b0b2340488079",
+                "reference": "2f669db18a4c20c755c2bb7d3a7b0b2340488079",
                 "shasum": ""
             },
             "require": {
@@ -3516,9 +3516,9 @@
                 "local"
             ],
             "support": {
-                "source": "https://github.com/thephpleague/flysystem-local/tree/3.30.2"
+                "source": "https://github.com/thephpleague/flysystem-local/tree/3.31.0"
             },
-            "time": "2025-11-10T11:23:37+00:00"
+            "time": "2026-01-23T15:30:45+00:00"
         },
         {
             "name": "league/flysystem-path-prefixing",
@@ -5383,6 +5383,69 @@
             "time": "2021-08-15T12:53:48+00:00"
         },
         {
+            "name": "predis/predis",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/predis/predis.git",
+                "reference": "153097374b39a2f737fe700ebcd725642526cdec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/predis/predis/zipball/153097374b39a2f737fe700ebcd725642526cdec",
+                "reference": "153097374b39a2f737fe700ebcd725642526cdec",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "psr/http-message": "^1.0|^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.3",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpcov": "^6.0 || ^8.0",
+                "phpunit/phpunit": "^8.0 || ~9.4.4"
+            },
+            "suggest": {
+                "ext-relay": "Faster connection with in-memory caching (>=0.6.2)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Till Krüss",
+                    "homepage": "https://till.im",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A flexible and feature-complete Redis/Valkey client for PHP.",
+            "homepage": "http://github.com/predis/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/predis/predis/issues",
+                "source": "https://github.com/predis/predis/tree/v3.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/tillkruss",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-24T17:48:50+00:00"
+        },
+        {
             "name": "psr/clock",
             "version": "1.0.0",
             "source": {
@@ -6070,6 +6133,63 @@
                 "source": "https://github.com/ramsey/uuid/tree/4.9.2"
             },
             "time": "2025-12-14T04:43:48+00:00"
+        },
+        {
+            "name": "resend/resend-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/resend/resend-php.git",
+                "reference": "c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/resend/resend-php/zipball/c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3",
+                "reference": "c1ce4ee5dc8ca90a5e6a2dc6d772a06abbe7c9d3",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.13",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^2.0|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Resend.php"
+                ],
+                "psr-4": {
+                    "Resend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Resend and contributors",
+                    "homepage": "https://github.com/resend/resend-php/contributors"
+                }
+            ],
+            "description": "Resend PHP library.",
+            "homepage": "https://resend.com/",
+            "keywords": [
+                "api",
+                "client",
+                "php",
+                "resend",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/resend/resend-php/issues",
+                "source": "https://github.com/resend/resend-php/tree/v1.1.0"
+            },
+            "time": "2025-11-26T08:41:40+00:00"
         },
         {
             "name": "ryangjchandler/blade-capture-directive",
@@ -8704,16 +8824,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v7.4.3",
+            "version": "v7.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "2f8e1a6cdf590ca63715da4d3a7a3327404a523f"
+                "reference": "608476f4604102976d687c483ac63a79ba18cc97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/2f8e1a6cdf590ca63715da4d3a7a3327404a523f",
-                "reference": "2f8e1a6cdf590ca63715da4d3a7a3327404a523f",
+                "url": "https://api.github.com/repos/symfony/process/zipball/608476f4604102976d687c483ac63a79ba18cc97",
+                "reference": "608476f4604102976d687c483ac63a79ba18cc97",
                 "shasum": ""
             },
             "require": {
@@ -8745,7 +8865,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v7.4.3"
+                "source": "https://github.com/symfony/process/tree/v7.4.5"
             },
             "funding": [
                 {
@@ -8765,7 +8885,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-19T10:00:43+00:00"
+            "time": "2026-01-26T15:07:59+00:00"
         },
         {
             "name": "symfony/routing",
@@ -13566,11 +13686,11 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.4",
-        "ext-pdo": "*",
+        "ext-fileinfo": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-fileinfo": "*"
+        "ext-pdo": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

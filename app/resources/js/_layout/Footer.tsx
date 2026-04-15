@@ -1,10 +1,8 @@
-
-
 export default function Footer(){
 
     return(
-        <footer className="bg-gray-50 py-8 border-t border-gray-200">
-        <div className="container mx-auto px-4">
+        <footer className="bg-gray-50 py-8 border-t     bottom-0 border-gray-200 ">
+          <div className="mx-auto px-4 py-3 sm:max-w-6xl ">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
               <h3 className="text-xl font-bold text-gray-900">СкладХранение</h3>

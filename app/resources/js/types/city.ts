@@ -8,15 +8,9 @@ export interface ICity {
     updated_at?: string;
 }
 
-export interface ICitiesResponse {
-    success: boolean;
-    data: ICity[];
-    message?: string;
-}
 
 export interface ICityResponse {
     success: boolean;
-    arrayData?: ICity;
     data?: ICity;
     message?: string;
 }

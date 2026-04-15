@@ -13,7 +13,10 @@ export interface IAddress {
     house: string;
     building: string;
     frame: string;
-    lat: number;
-    lon: number;
+    coordinates: {
+        lat: number;
+        lon: number;
+    }
+
     how_to_get_there: string;
 }

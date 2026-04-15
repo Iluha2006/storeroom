@@ -19,9 +19,9 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Enums\UserStatusEnum;
 use Database\Factories\UserFactory;
 use App\Enums\UserPermissionEnum;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, ShouldQueue
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles, SoftDeletes;

@@ -36,7 +36,7 @@ return new class extends Migration {
                 ->storedAs('length * height * width')
                 ->index()
                 ->comment('Объем, см³');
-            $table->decimal('price', 10, 2)->default(1)->comment('Цена, ₽');
+            $table->decimal('price', 10, 2)->default(3)->comment('Цена, ₽');
             $table->text('how_to_get_there')->nullable()->comment('Как пройти');
             $table->timestamps();
             $table->softDeletes();
@@ -45,7 +45,7 @@ return new class extends Migration {
             $table->index(['warehouse_object_id', 'status']);
             $table->comment('Ячейки');
         });
-        DB::statement('ALTER TABLE warehouse_cells ALTER COLUMN uuid SET DEFAULT uuid_generate_v4()');
+
     }
 
     /**

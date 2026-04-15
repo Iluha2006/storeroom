@@ -1,22 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import cityReducer from '../store/City';
-import warehouseObject from '../store/warehouseObject'
+import { authApi } from '@/api/authApi';
+import { cellPriceApi } from '@/api/cellPriceApi';
 
-import cellReducer from './CellObject'
+import { cellApi } from '../api/cellApi';
+import { cityApi } from '../api/cityApi';
 
+import authReducer from './Auth'
 
 export const store = configureStore({
   reducer: {
-    cells: cellReducer,
-    cities: cityReducer,
-    warehouseObjects: warehouseObject,
+    [authApi.reducerPath]: authApi.reducer,
+    [cityApi.reducerPath]: cityApi.reducer,
+    [cellApi.reducerPath]: cellApi.reducer,
 
-
+    [cellPriceApi.reducerPath]: cellPriceApi.reducer,
+    auth:authReducer,
   },
-});
-console.log('Redux store keys:', Object.keys(store.getState()));
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      authApi.middleware,
+      cellApi.middleware,
+      cityApi.middleware,
+      cellPriceApi.middleware
+    );
+  },
+
+},
+
+
+);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-console.log('Redux store keys:', store);

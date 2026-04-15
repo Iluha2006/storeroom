@@ -8,7 +8,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 ## Foundational Context
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.12
+- php - 8.4.8
 - filament/filament (FILAMENT) - v4
 - inertiajs/inertia-laravel (INERTIA) - v2
 - laravel/fortify (FORTIFY) - v1
@@ -21,7 +21,6 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - laravel/pint (PINT) - v1
 - laravel/sail (SAIL) - v1
 - phpunit/phpunit (PHPUNIT) - v12
-- @inertiajs/react (INERTIA) - v2
 - react (REACT) - v19
 - tailwindcss (TAILWINDCSS) - v4
 - @laravel/vite-plugin-wayfinder (WAYFINDER) - v0
@@ -157,9 +156,7 @@ Route::get('/users', function () {
 - When using deferred props on the frontend, you should add a nice empty state with pulsing/animated skeleton.
 
 ### Inertia Form General Guidance
-- The recommended way to build forms when using Inertia is with the `<Form>` component - a useful example is below. Use the `search-docs` tool with a query of `form component` for guidance.
-- Forms can also be built using the `useForm` helper for more programmatic control, or to follow existing conventions. Use the `search-docs` tool with a query of `useForm helper` for guidance.
-- `resetOnError`, `resetOnSuccess`, and `setDefaultsOnSuccess` are available on the `<Form>` component. Use the `search-docs` tool with a query of `form component resetting` for guidance.
+- Build forms using the `useForm` helper. Use the code examples and the `search-docs` tool with a query of `useForm helper` for guidance.
 
 === laravel/core rules ===
 
@@ -273,11 +270,16 @@ Wayfinder generates TypeScript functions and types for Laravel controllers and r
 </code-snippet>
 
 ### Wayfinder + Inertia
-If your application uses the `<Form>` component from Inertia, you can use Wayfinder to generate form action and method automatically.
-<code-snippet name="Wayfinder Form Component (React)" lang="typescript">
+If your application uses the `useForm` component from Inertia, you can directly submit to the Wayfinder generated functions.
 
-<Form {...store.form()}><input name="title" /></Form>
+<code-snippet name="Wayfinder useForm Example" lang="typescript">
+    import { store } from "@/actions/App/Http/Controllers/ExampleController";
 
+    const form = useForm({
+        name: "My Big Post",
+    });
+
+    form.submit(store());
 </code-snippet>
 
 === livewire/core rules ===
@@ -383,56 +385,6 @@ document.addEventListener('livewire:init', function () {
 - To run all tests: `php artisan test --compact`.
 - To run all tests in a file: `php artisan test --compact tests/Feature/ExampleTest.php`.
 - To filter on a particular test name: `php artisan test --compact --filter=testName` (recommended after making a change to a related file).
-
-=== inertia-react/core rules ===
-
-## Inertia + React
-
-- Use `router.visit()` or `<Link>` for navigation instead of traditional links.
-
-<code-snippet name="Inertia Client Navigation" lang="react">
-
-import { Link } from '@inertiajs/react'
-<Link href="/">Home</Link>
-
-</code-snippet>
-
-=== inertia-react/v2/forms rules ===
-
-## Inertia v2 + React Forms
-
-<code-snippet name="`<Form>` Component Example" lang="react">
-
-import { Form } from '@inertiajs/react'
-
-export default () => (
-    <Form action="/users" method="post">
-        {({
-            errors,
-            hasErrors,
-            processing,
-            wasSuccessful,
-            recentlySuccessful,
-            clearErrors,
-            resetAndClearErrors,
-            defaults
-        }) => (
-        <>
-        <input type="text" name="name" />
-
-        {errors.name && <div>{errors.name}</div>}
-
-        <button type="submit" disabled={processing}>
-            {processing ? 'Creating...' : 'Create User'}
-        </button>
-
-        {wasSuccessful && <div>User created successfully!</div>}
-        </>
-    )}
-    </Form>
-)
-
-</code-snippet>
 
 === tailwindcss/core rules ===
 

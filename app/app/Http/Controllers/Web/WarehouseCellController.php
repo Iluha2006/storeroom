@@ -5,72 +5,70 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\WarehouseCellResource;
-use App\Handlers\Queries\WarehouseCell\GetAvailableWarehouseCellsBySlugHandler;
-use App\Handlers\Queries\WarehouseCell\GetAvailableWarehouseCellBySlugHandler;
-use App\Models\WarehouseCell;
-use App\Queries\WarehouseCell\GetAvailableWarehouseCellsBySlugQuery;
-use App\Queries\WarehouseCell\GetAvailableWarehouseCellBySlugQuery;
+use App\Services\WarehouseCellService;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\BrowserKit\Request;
 
 class WarehouseCellController extends Controller
 {
-    public function index(
-        GetAvailableWarehouseCellsBySlugHandler $handler,
-        string $citySlug,
-        string $objectSlug
-    ): JsonResponse
+    public function __construct(
+        private readonly WarehouseCellService $cellService
+    ) {}
+
+    public function indexByCity(string $citySlug): JsonResponse
     {
-        $cells = $handler->handle(new GetAvailableWarehouseCellsBySlugQuery(
-            citySlug: $citySlug,
-            objectSlug: $objectSlug
-        ));
+        $cells = $this->cellService->getCellsByCity($citySlug);
 
         return response()->json([
             'success' => true,
-            'data' => WarehouseCellResource::collection($cells),
+            'data' => $this->cellService->toResource($cells)
+        ]);
+    }
+
+    public function show(string $cellSlug): JsonResponse
+    {
+        $cell = $this->cellService->getCellBySlug($cellSlug);
+
+        if (!$cell) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ячейка не найдена'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $this->cellService->toSingleResource($cell)
+        ]);
+    }
+
+    public function indexAll(): JsonResponse
+    {
+        $cells = $this->cellService->getAllCells();
+
+        return response()->json([
+            'success' => true,
+            'data' => $this->cellService->toResource($cells)
         ]);
     }
 
 
-
-
-public function indexByCity(string $citySlug): JsonResponse
-{
-    $cells = \App\Models\WarehouseCell::with([
-        'object',
-        'object.address.city',
-        'object.organization'
-    ])
-    ->where('status', \App\Enums\WarehouseCellStatusEnum::Available->value)
-    ->whereHas('object', function ($query) {
-        $query->where('is_active', true);
-    })
-    ->whereHas('object.address.city', function ($query) use ($citySlug) {
-        $query->where('slug', $citySlug);
-    })
-    ->get();
-
-    return response()->json([
-        'success' => true,
-        'data' => \App\Http\Resources\WarehouseCellResource::collection($cells)
-    ]);
-}
-
-    public function show(
-        GetAvailableWarehouseCellBySlugHandler $handler,
-        string $cellSlug
-    ): JsonResponse
+    public function clearCacheForCell(int $cellId): JsonResponse
     {
-        $cell = $handler->handle(new GetAvailableWarehouseCellBySlugQuery(slug: $cellSlug));
+        $this->cellService->invalidateCellCache($cellId);
 
         return response()->json([
             'success' => true,
-            'data' => new WarehouseCellResource($cell)
+            'message' => 'Кэш ячейки очищен'
         ]);
     }
 
+    public function clearCacheForCity(string $citySlug): JsonResponse
+    {
+        $this->cellService->invalidateCityCache($citySlug);
 
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Кэш города очищен'
+        ]);
+    }
 }

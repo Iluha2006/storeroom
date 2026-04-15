@@ -1,4 +1,4 @@
-import CityCells from "@/components/WarehouseObject";
+import CityCells from "@/components/Object/WarehouseObject";
 
 
 function ObjectPage(){

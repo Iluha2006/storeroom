@@ -1,8 +1,8 @@
 
-import Footer from '@/_layout/Footer';
-import Main from '@/_layout/Main';
-
+import Footer from '../../_layout/Footer';
 import Header from '../../_layout/Header';
+import Main from '../../_layout/Main';
+
 
 
 export default function  HomePage () {

@@ -6,7 +6,7 @@ function getCookie(name: string): string | undefined {
 }
 
 export const rtkBaseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:8000',
+  baseUrl: 'http://localhost:8005',
   credentials: 'include',
   prepareHeaders: (headers) => {
     headers.set('Accept', 'application/json');

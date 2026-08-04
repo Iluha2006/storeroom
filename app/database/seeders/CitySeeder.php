@@ -9,12 +9,21 @@ class CitySeeder extends Seeder
 {
     public function run(): void
     {
-        $this->command->warn('Создаю 3 города...');
+        $this->command->warn('Создаю русские города...');
 
-        City::factory()->create(['name' => 'Москва', 'slug' => 'moskva', 'is_active' => true]);
-        City::factory()->create(['name' => 'Клин', 'slug' => 'klin', 'is_active' => true]);
-        City::factory()->create(['name' => 'Тверь', 'slug' => 'tver', 'is_active' => true]);
+        $cities = [
+            ['name' => 'Москва', 'slug' => 'moskva'],
+            ['name' => 'Клин', 'slug' => 'klin'],
+            ['name' => 'Тверь', 'slug' => 'tver'],
+        ];
 
-        $this->command->info('✓ 3 города успешно созданы');
+        foreach ($cities as $city) {
+            City::updateOrCreate(
+                ['slug' => $city['slug']],
+                ['name' => $city['name'], 'is_active' => true]
+            );
+        }
+
+        $this->command->info('✓ 3 русских города успешно созданы');
     }
 }

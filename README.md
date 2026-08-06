@@ -20,7 +20,6 @@
 - **Frontend:** React 19, TypeScript, Inertia.js, Redux Toolkit, Leaflet (карты)
 - **Админ-панель:** Filament 4
 - **Файлы:** MinIO / S3 (AWS SDK)
-- **Оплата:** ЮKassa (yoomoney/yookassa-sdk-php)
 - **Авторизация:** Laravel Fortify, Sanctum, Spatie Permissions
 - **Инфраструктура:** Docker, Nginx
 
